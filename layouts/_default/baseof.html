@@ -23,6 +23,17 @@
     {{ template "_internal/google_analytics_async.html" . }}
 
     {{ partial "head-custom.html" . }}
+
+    {{ if .Params.wideTh }}
+    <style type="text/css">
+    {{ range $index, $width := .Params.wideTh }}
+    th:nth-child({{ add $index 1 }}) {
+      width: {{ $width }};
+    }
+    {{ end }}
+    </style>
+    {{ end }}
+
   </head>
   <body>
     {{ block "header" . }}
@@ -30,7 +41,11 @@
     {{ end }}
 
     {{ block "body" . }}
-    <div class="container">
+    {{ if .Params.widepage}}
+      <div class="container-fluid">
+    {{ else }}
+      <div class="container">
+    {{ end }}
       <div class="row">
         <div class="col-12 col-lg-8 blog-main">
 
