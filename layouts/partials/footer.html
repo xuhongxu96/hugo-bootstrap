@@ -35,65 +35,35 @@ MathJax.Hub.Queue(function() {
 });
 </script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
 
 <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
-      <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-      <script>
-        //去除尾部匹配正则数组的字符串  
-        String.prototype.trimEnd = function(regStr)  
-        {  
-            var result = this;
-            if(regStr==undefined||regStr==null||regStr=="")  
-            {    
-                return result;
-            }
-            var array = regStr.split(',');
-
-            if(array.length > 0){
-                 
-                var c = array.shift();
-                var str= this;
-                var i = str.length;  
-                var rg = new RegExp(c);
-                var matchArr = str.match(rg);
-
-                if(matchArr != undefined && matchArr != null && matchArr.length > 0)
-                {
-                  var matchStr = matchArr[0].replace(/\\/g, "\\\\").replace(/\*/g, "\\*")
-                                            .replace(/\+/g, "\\+").replace(/\|/g, "\\|")
-                                            .replace(/\{/g, "\\{").replace(/\}/g, "\\}")
-                                            .replace(/\(/g, "\\(").replace(/\)/g, "\\)")
-                                            .replace(/\^/g, "\\^").replace(/\$/g, "\\$")
-                                            .replace(/\[/g, "\\[").replace(/\]/g, "\\]")
-                                            .replace(/\?/g, "\\?").replace(/\,/g, "\\,")
-                                            .replace(/\./g, "\\.").replace(/\&/g, "\\&");
-                  matchStr = matchStr + '$';
-                  result = str.replace(new RegExp(matchStr), "");
-                }
-                
-                if(array.length > 0){
-                    return result.trimEnd(array.join())
-                }
-                else{
-                    return result; 
-                } 
-            } 
-        };
-      </script>
-
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 <script type="text/javascript">
-var gitalk = new Gitalk({
-  clientID: 'dd67fbd38a74844e6dce',
-  clientSecret: '7278e4bf15c952b3491d7c61716b9672962f4460',
-  repo: 'xuhongxu96.github.io',
-  owner: 'xuhongxu96',
-  admin: ['xuhongxu96'],
-  id: md5(location.href.trimEnd('index.html')),      // Ensure uniqueness and length less than 50
-  distractionFreeMode: true  // Facebook-like distraction free mode
-})
+    String.prototype.trimEnd = function (str) {
+        if (this.endsWith(str)) {
+            return this.substring(0, this.length - str.length);
+        }
+        return this;
+    }
 
-gitalk.render('gitalk-container')
+    function cleanedHref() {
+        var res = location.href.trim();
+        var regex = /(index\.html?|[#/])+$/gi;
+        return res.replace(regex, '')
+    }
+
+    var gitalk = new Gitalk({
+        clientID: 'dd67fbd38a74844e6dce',
+        clientSecret: '7278e4bf15c952b3491d7c61716b9672962f4460',
+        repo: 'xuhongxu96.github.io',
+        owner: 'xuhongxu96',
+        admin: ['xuhongxu96'],
+        id: md5(cleanedHref()),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('gitalk-container')
 </script>
-
